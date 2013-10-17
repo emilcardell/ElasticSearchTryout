@@ -12,9 +12,9 @@ namespace KibanaTryout
 		{
 			var document = new JObject();
 			var id = Guid.NewGuid().ToString();
-		    document.Add(ElasticSearchFields.Id, new JValue(id));
+			document.Add(ElasticSearchFields.Id, new JValue(id));
 			document.Add(ElasticSearchFields.Timestamp, new JValue(timeStamp));
-            document.Add(ElasticSearchFields.Type, new JValue("SearchEvent"));
+			document.Add(ElasticSearchFields.Type, new JValue("SearchEvent"));
 			document.Add(ElasticSearchFields.Message, new JValue("Event with id: " + id));
 
 			var rnd = new Random();
@@ -27,7 +27,7 @@ namespace KibanaTryout
 			}
 
 			var user = string.Empty;
-			while(string.IsNullOrWhiteSpace(user))
+			while (string.IsNullOrWhiteSpace(user))
 			{
 				user = AvalableUsers.FirstOrDefault(r => rnd.Next(0, 2) == 1);
 			}
@@ -38,7 +38,7 @@ namespace KibanaTryout
 			{
 				Id = id,
 				TimeStamp = timeStamp,
-                LogType = "SearchEvent",
+				LogType = "SearchEvent",
 				Parameters = parameters.ToList(),
 				User = user
 			};
@@ -50,13 +50,11 @@ namespace KibanaTryout
 			document.Add("User", new JValue(user));
 
 			resultToIndex.JsonBody = document.ToString(Newtonsoft.Json.Formatting.None);
-			
-			
 
 			return resultToIndex;
 		}
 
-		public static List<string> AvalableUsers = new List<string>() { "Brandy"," Heather"," Channing"," Brianna"," Amber"," Serena"," Melody"," Dakota"," Sierra"," Bambi"," Crystal"," Samantha"," Autumn" };
+		public static List<string> AvalableUsers = new List<string>() { "Brandy", " Heather", " Channing", " Brianna", " Amber", " Serena", " Melody", " Dakota", " Sierra", " Bambi", " Crystal", " Samantha", " Autumn" };
 		public static List<string> AvalableParameters = new List<string>() { "Ostriches", " Emus", " Kiwis", " Penguins", " Albatrosses", " Grebes", " Flamingos", " Storks", " Herons", " Pelicans", " Cranes", " Sandgrouses", " Pigeons", " Doves", " Parrots", " Cuckoos", " Turacos", " Owls", " Nightjars", " Frogmouths", " Swifts", " Hummingbirds", " Mousebirds", " Trogons", " Woodpeckers", " Toucans" };
 		public static List<string> AvalableResult = new List<string>() { "Mason wasp nest", "Mealybug", "Mealybug Ladybird", "Mercury Island tusked weta", "Metallic green rove beetle", "Millipedes", "Mite damage", "Mites", "Mole Cricket", "Monarch butterfly", "North Island Lichen Moth", "Nurseryweb spider" };
 	}

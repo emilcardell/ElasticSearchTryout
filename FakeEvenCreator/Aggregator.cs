@@ -24,6 +24,15 @@ namespace KibanaTryout
 				                      .From(DateTime.UtcNow.Date)
 				                      .To(DateTime.UtcNow.AddDays(2).Date))));
 
+			//Start Datum - ID/paging - Poistion
+			//Hämta ett dygns data (med paging)
+
+			//Spara i dictionary - skapa nyckel
+
+
+
+			//När allt är klart spara till elasticserch
+
 			Console.WriteLine(blahonga.Total);
 
 			foreach (var searchEvent in blahonga.Documents)

@@ -23,17 +23,6 @@ namespace KibanaTryout
 
 				Console.WriteLine(eventToLog.JsonBody);
 				//Thread.Sleep(TimeSpan.FromSeconds(new Random().Next(1, 5)));
-
-				//Start Datum - ID/paging - Poistion
-				//Hämta ett dygns data (med paging)
-
-				//Spara i dictionary - skapa nyckel
-
-
-
-				//När allt är klart spara till elasticserch
-
-
 			}
 		}
 	}

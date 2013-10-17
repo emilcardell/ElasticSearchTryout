@@ -12,14 +12,13 @@ namespace KibanaTryout
 		{
 			var document = new JObject();
 			var id = Guid.NewGuid().ToString();
-			var timeStamp = DateTime.Now;
+			var timeStamp = DateTime.UtcNow;
 			document.Add(ElasticSearchFields.Id, new JValue(id));
-			document.Add(ElasticSearchFields.Timestamp, new JValue(timeStamp.ToString("yyyy-MM-ddTHH:mm:ss" + ".1321")));
-			document.Add(ElasticSearchFields.Type, new JValue("SeachEvent_another"));
+			document.Add(ElasticSearchFields.Timestamp, new JValue(timeStamp));
+			document.Add(ElasticSearchFields.Type, new JValue("SeachEvent"));
 			document.Add(ElasticSearchFields.Message, new JValue("Event with id: " + id));
 
 			var rnd = new Random();
-
 
 			var parameters = AvalableParameters.Where(p => rnd.Next(0, 2) == 1).Take(rnd.Next(0, 10));
 			var result = string.Empty;

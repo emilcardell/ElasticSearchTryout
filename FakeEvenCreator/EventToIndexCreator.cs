@@ -8,12 +8,11 @@ namespace KibanaTryout
 {
 	public class EventToIndexCreator
 	{
-		public static ResultToIndex CreateEventToIndex()
+		public static ResultToIndex CreateEventToIndex(DateTime timeStamp)
 		{
 			var document = new JObject();
 			var id = Guid.NewGuid().ToString();
-			var timeStamp = DateTime.UtcNow;
-			document.Add(ElasticSearchFields.Id, new JValue(id));
+		    document.Add(ElasticSearchFields.Id, new JValue(id));
 			document.Add(ElasticSearchFields.Timestamp, new JValue(timeStamp));
             document.Add(ElasticSearchFields.Type, new JValue("SearchEvent"));
 			document.Add(ElasticSearchFields.Message, new JValue("Event with id: " + id));

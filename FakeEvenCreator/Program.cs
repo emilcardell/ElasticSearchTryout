@@ -18,7 +18,9 @@ namespace KibanaTryout
 
                 return;
 
-                var eventToLog = EventToIndexCreator.CreateEventToIndex();
+                var timeStamp = DateTime.UtcNow.AddDays(new Random().Next(-10, 10));
+
+                var eventToLog = EventToIndexCreator.CreateEventToIndex(timeStamp);
                 indexer.IndexLog(eventToLog);
 
                 Console.WriteLine(eventToLog.JsonBody);

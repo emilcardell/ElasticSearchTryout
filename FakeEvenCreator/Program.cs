@@ -1,28 +1,41 @@
 ﻿using System;
-using System.Threading;
 
 namespace KibanaTryout
 {
-	class Program
+	static class Program
 	{
 		static void Main(string[] args)
 		{
-			var indexer = new ElasticSearchIndexer(new ElasticSearchConfiguration());
+			Console.WriteLine("[A]ggregate or create [I]ndex?");
+			var consoleKey = Console.ReadKey().Key;
 
-			while (true)
+			switch (consoleKey)
 			{
-				var agg = new Aggregator();
-				agg.Blahonga();
+				case ConsoleKey.A:
+				{
+					var agg = new Aggregator();
+					agg.Blahonga();
 
-				return;
+					return;
+				}
+				case ConsoleKey.I:
+				{
+					var indexer = new ElasticSearchIndexer(new ElasticSearchConfiguration());
+					var milliseconds = (int)TimeSpan.FromDays(10).TotalMilliseconds;
 
-				var timeStamp = DateTime.UtcNow.AddDays(new Random().Next(-10, 10));
+					while (true)
+					{
+						var timeStamp = DateTime.UtcNow.AddMilliseconds(new Random().Next(-milliseconds, milliseconds));
+						var eventToLog = EventToIndexCreator.CreateEventToIndex(timeStamp);
+						indexer.IndexLog(eventToLog);
 
-				var eventToLog = EventToIndexCreator.CreateEventToIndex(timeStamp);
-				indexer.IndexLog(eventToLog);
+						Console.WriteLine(eventToLog.JsonBody);
+					}
 
-				Console.WriteLine(eventToLog.JsonBody);
-				//Thread.Sleep(TimeSpan.FromSeconds(new Random().Next(1, 5)));
+				}
+				default:
+					Console.WriteLine("Nah...");
+					break;
 			}
 		}
 	}

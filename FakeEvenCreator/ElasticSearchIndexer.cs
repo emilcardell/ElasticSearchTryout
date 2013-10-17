@@ -23,7 +23,7 @@ namespace KibanaTryout
 		{
 			var indexName = BuildIndexName(resultToIndex.TimeStamp);
 			EnsureIndexExists(indexName);
-			
+
 			var indexResult = _rawClient.IndexPut(indexName, resultToIndex.LogType, resultToIndex.Id, resultToIndex.JsonBody);
 
 			if (!indexResult.Success)
@@ -82,7 +82,7 @@ namespace KibanaTryout
 				.Properties(descriptor => descriptor
 					.Date(m => m.Name(ElasticSearchFields.Timestamp).Index(NonStringIndexOption.not_analyzed))
 					.String(m => m.Name(ElasticSearchFields.Type).Index(FieldIndexOption.not_analyzed))
-                    .String(m => m.Name("Parameter").Index(FieldIndexOption.not_analyzed))
+					.String(m => m.Name("Parameter").Index(FieldIndexOption.not_analyzed))
 					.String(m => m.Name(ElasticSearchFields.Message).IndexAnalyzer("whitespace"))
 				)
 			);

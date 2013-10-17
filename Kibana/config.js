@@ -18,7 +18,7 @@ function (Settings) {
      * elasticsearch host
      * @type {String}
      */
-    elasticsearch: "http://ne-dev-jenkins1:9200",
+    elasticsearch: "http://localhost:9200",
 
     /**
      * The default ES index to use for storing Kibana specific object

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
 
 namespace KibanaTryout
@@ -37,13 +36,5 @@ namespace KibanaTryout
 
 			}
 		}
-	}
-
-	public class AggressiveModel
-	{
-		public DateTime TimeStamp { get; set; }
-		public string Parameter { get; set; }
-		public int NumberOfUniqueUsers { get; set; }
-		//public List<string> UniqueUsers { get; set; }  
 	}
 }

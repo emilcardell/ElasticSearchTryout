@@ -15,7 +15,7 @@ namespace KibanaTryout
 			var timeStamp = DateTime.UtcNow;
 			document.Add(ElasticSearchFields.Id, new JValue(id));
 			document.Add(ElasticSearchFields.Timestamp, new JValue(timeStamp));
-			document.Add(ElasticSearchFields.Type, new JValue("SeachEvent"));
+            document.Add(ElasticSearchFields.Type, new JValue("SearchEvent"));
 			document.Add(ElasticSearchFields.Message, new JValue("Event with id: " + id));
 
 			var rnd = new Random();
@@ -39,7 +39,7 @@ namespace KibanaTryout
 			{
 				Id = id,
 				TimeStamp = timeStamp,
-				LogType = "SeachEvent_another",
+                LogType = "SearchEvent",
 				Parameters = parameters.ToList(),
 				User = user
 			};
@@ -48,7 +48,7 @@ namespace KibanaTryout
 			document.Add("NumberOfHits", new JValue(rnd.Next(0, 1200)));
 			document.Add("RequestTime", new JArray(rnd.Next(100, 5000)));
 			document.Add("Result", new JArray(result));
-			document.Add("User", new JArray(user));
+			document.Add("User", new JValue(user));
 
 			resultToIndex.JsonBody = document.ToString(Newtonsoft.Json.Formatting.None);
 			

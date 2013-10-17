@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Aggregator.cs" />
     <Compile Include="ElasticSearchConfiguration.cs" />
     <Compile Include="ElasticSearchFields.cs" />
     <Compile Include="ElasticSearchIndexer.cs" />

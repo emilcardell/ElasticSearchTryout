@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Nest;
 using Newtonsoft.Json;
 
@@ -17,28 +15,73 @@ namespace KibanaTryout
 			clientSettings.SetDefaultIndex("_all");
 			var client = new ElasticClient(clientSettings);
 
-			var blahonga = client.Search<SearchEvent>(
-				s => s.Query(q =>
-				             q.Range(r =>
-				                     r.OnField(ElasticSearchFields.Timestamp)
-				                      .From(DateTime.UtcNow.Date)
-				                      .To(DateTime.UtcNow.AddDays(2).Date))));
-
 			//Start Datum - ID/paging - Poistion
+
+			var dateToAggregate = DateTime.UtcNow.Date;
+			var currentSkip = 0;
+			var currentTake = 1000;
+			var currentTotal = 0;
+
 			//Hämta ett dygns data (med paging)
+			var parametersAndUsers = new Dictionary<string, HashSet<string>>();
+
+			while (true)
+			{
+				var skip = currentSkip;
+				var take = currentTake;
+
+				var blahonga = client.Search<SearchEvent>(
+					s => s.Skip(skip).Take(take).Query(q =>
+								 q.Range(r =>
+										 r.OnField(ElasticSearchFields.Timestamp)
+										  .From(dateToAggregate)
+										  .To(dateToAggregate.AddDays(1))
+										  .ToExclusive()
+									 )));
+
+				foreach (var searchEvent in blahonga.Documents)
+				{
+					currentTotal++;
+
+					foreach (var parameter in searchEvent.Parameters)
+					{
+						if (parametersAndUsers.ContainsKey(parameter))
+						{
+							var users = parametersAndUsers[parameter];
+
+							if (!users.Contains(searchEvent.User))
+							{
+								users.Add(searchEvent.User);
+							}
+						}
+						else
+						{
+							parametersAndUsers.Add(parameter, new HashSet<string>(new[] { searchEvent.User }));
+						}
+					}
+				}
+
+				currentSkip += currentTake;
+				var diff = (blahonga.Total - currentTotal);
+
+				if (currentTake > diff)
+				{
+					currentTake = diff;
+				}
+
+				if (blahonga.Total <= currentTotal)
+				{
+					break;
+				}
+			}
 
 			//Spara i dictionary - skapa nyckel
-
-
+			foreach (var kvp in parametersAndUsers)
+			{
+				Console.WriteLine("Parameter: {0}, NumberOfUsers: {1}", kvp.Key, kvp.Value.Count());
+			}
 
 			//När allt är klart spara till elasticserch
-
-			Console.WriteLine(blahonga.Total);
-
-			foreach (var searchEvent in blahonga.Documents)
-			{
-				Console.WriteLine("User: {0}, TimeStamp: {1}", searchEvent.User, searchEvent.TimeStamp);
-			}
 
 			Console.WriteLine("YAY!");
 		}
